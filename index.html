@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins');
+* {
+  margin: 0;
+  padding: 0;
+ 
+  }
+   */
+.parent{
+  width: 100%;
+  height: 100vh;
+   display: flex;
+   flex-direction:column;
+   text-align: center;
+   gap: 20px;
+   background-image: url(https://th.bing.com/th/id/R.9726ef453d3d8c1e3f3d76bf61ca9e80?rik=a3zxaPWtEYZ9TA&riu=http%3a%2f%2fwallpapercave.com%2fwp%2fySY7fUR.jpg&ehk=BqBaVdn8iQn%2bikm2BIy4LQUJviEay3sJGdQ8UPij%2bb0%3d&risl=&pid=ImgRaw&r=0);
+   background-repeat: no-repeat;
+   background-size: cover;
+
+}
+.logo{
+  height: 100px;
+  width: 500px;
+ margin-left: 390px;
+}
+
+.pokebox{
+  background-image:url(https://th.bing.com/th/id/OIP.iYq_viL7HsyYTOw2voddKwHaEo?pid=ImgDet&w=474&h=296&rs=1);
+  border: 1px solid black;
+    height: 60vh;
+    width: 250px;
+    margin: auto;
+}
+
+
+.namebox{
+  font-size: 14px;
+  padding-top: 20px;
+   display: flex;
+   justify-content: space-evenly;
+  
+  }
+  button {
+    width: 8%;
+    height: auto;
+    border: none;
+    background-color: #8a8d8e;
+    color: black;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    }
+ button:hover {
+   background-color: rgb(18, 244, 225);
+   color: black;
+  }
+
+ .numberbox{
+   padding-left: 19px;
+   font-size: 14px;
+   display: flex;
+   justify-content: space-around;
+  }
+
+@media screen and (max-width:649px){
+  .namebox{
+    flex-wrap: wrap;
+    }}
+
+.weightbox{
+   font-size: 14px;
+   padding-left: 23px;
+   display: flex;
+   justify-content: space-around;
+}
+
+.heightbox{
+  font-size: 14px;
+  padding-left: 24px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.pokemon{
+ position:relative;
+  max-width: 110px;
+  max-height: 250px;
+  align-self:center;
+  padding-top: 5px;
+}
+
+.pokemonfound{
+  height: 45%;
+ margin-left: 10px;
+ margin-right: 10px;
+ margin-top: 10px;
+  border: 3px solid rgb(163, 158, 158);
+  background-image: url(https://wallpaperaccess.com/full/1704746.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.pokename{
+  font-size: 15px;
+ margin-top: -3px;
+}
+
+.pokenumber{
+margin-top: -2px;
+  margin-right: 50px;
+}
+
+.pokeweight{
+  font-size: 15px;
+  margin-top: -2px;
+  margin-right: 35px;
+}
+
+.pokeheight{
+  font-size: 15px;
+  margin-top: -2px;
+  margin-right: 32px;
+}
+
+.pokecontent{
+  width: 200px;
+  height: 40%;
+  margin-top: 15px;
+  margin-left: 25px;
+  color: whitesmoke;
+}
+span{
+  font-weight:bold;
+ 
+
+}
+
+input{
+  /* margin-top: 10px; */
+ height: 30px;
+ width: 200px;
+}
+
+
+</style>
+</head>
+<body>
+  <div class="parent">
+    <img  class="logo" src="https://clipground.com/images/pokemon-logo-png-5.png" alt="">
+    <div class="input">
+    <input id="inputbox" type="text"  placeholder="Enter your pokemon name">
+    <button  class="content " onclick="
+    Fetch()
+    ">Find</button>
+    </div>
+ <div class="card" >
+        <img src="" id="img"/>
+     </div>
+</div>
+
+<script>
+   function Fetch(){
+        let inputbox =document.querySelector("#inputbox");
+        let value=inputbox.value;
+        fetch(`https://pokeapi.co/api/v2/pokemon/${value}`)
+       .then((message)=>message.json()).
+       then((data)=>{
+        const {id, name, height, weight, sprites:{other:{dream_world:{front_default}}}}=data
+        console.log(data.sprites.front_default)
+        let image=document.querySelector("#img");
+        image.src = data.sprites.front_default
+        let card=document.querySelector(".card");
+    card.innerHTML=`<div class="pokebox">
+      <div class="pokemonfound">
+    <img  class="pokemon" src="${front_default}" alt="${name}"></div>
+    <div class="pokecontent">
+      <div class="namebox" >
+        <span class="closebox">Name:</span>
+        <h3 class="pokename ">${name}</h3>
+        </div>
+        <div class="numberbox">
+          <span>Number:</span>
+          <p class="pokenumber">${id}</p>
+          </div>
+          <div class="weightbox">
+            <span >Weight:</span>
+            <p class="pokeweight">${weight}kg</p>
+            </div>
+            <div class="heightbox">
+                <span>Height:</span>
+                <p class="pokeheight">${height} Inch</p>
+                </div>
+            </div>
+           </div>`
+console.log(data)
+}).
+catch((error)=>console.log(error))
+}
+</script>
+</body>
+</html>
